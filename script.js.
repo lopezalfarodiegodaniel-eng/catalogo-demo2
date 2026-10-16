@@ -1,0 +1,42 @@
+
+const WHATSAPP = "521XXXXXXXXXX";
+// Después cambia esto por el número real del negocio.
+
+const productos = [
+  { nombre: "Producto elegante", precio: 199 },
+  { nombre: "Producto clásico", precio: 149 },
+  { nombre: "Producto especial", precio: 249 },
+  { nombre: "Producto favorito", precio: 179 }
+];
+
+const contenedor = document.getElementById("products");
+const buscador = document.getElementById("search");
+
+function mostrarProductos(filtro = "") {
+  const encontrados = productos.filter(producto =>
+    producto.nombre.toLowerCase().includes(filtro.toLowerCase())
+  );
+
+  if (encontrados.length === 0) {
+    contenedor.innerHTML = "<p>No se encontraron productos.</p>";
+    return;
+  }
+
+  contenedor.innerHTML = encontrados.map(producto => `
+    <article class="product">
+      <h2>${producto.nombre}</h2>
+      <p class="price">$${producto.precio} MXN</p>
+      <a href="https://wa.me/${WHATSAPP}?text=${
+        encodeURIComponent("Hola, me interesa " + producto.nombre)
+      }" target="_blank" rel="noopener">
+        Pedir por WhatsApp
+      </a>
+    </article>
+  `).join("");
+}
+
+buscador.addEventListener("input", () => {
+  mostrarProductos(buscador.value);
+});
+
+mostrarProductos();
